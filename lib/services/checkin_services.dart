@@ -5,10 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
 
 import '../constants.dart';
-import '../model/add_designation_model.dart';
+import '../model/gelocation_model.dart';
 
-class AddDesignationServices {
-  Future<bool> addDesignation(Add_Designation designation) async {
+class CheckinServices{
+  Future<bool> addlocation(GeolocationModel designation) async {
     var data = json.encode({
       "data": designation,
     });
@@ -16,7 +16,7 @@ class AddDesignationServices {
     try {
       var dio = Dio();
       var response = await dio.request(
-        apiaddDesignation,
+        apiaddLocation,
         options: Options(
           method: 'POST',
           headers: {'Authorization': await getTocken()},
@@ -25,10 +25,10 @@ class AddDesignationServices {
       );
 
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Designation Added Successfully");
+        Fluttertoast.showToast(msg: "location Added Successfully");
         return true;
       } else {
-        Fluttertoast.showToast(msg: "UNABLE TO add Designation!");
+        Fluttertoast.showToast(msg: "UNABLE TO add location!");
         return false;
       }
     } catch (e) {
@@ -38,7 +38,7 @@ class AddDesignationServices {
     return false;
   }
 
-  Future<bool> updateDesignation(Add_Designation designation) async {
+  Future<bool> updatelocation(GeolocationModel designation) async {
     var data = json.encode({
       "data": designation,
     });
@@ -46,7 +46,7 @@ class AddDesignationServices {
     try {
       var dio = Dio();
       var response = await dio.request(
-        '$baseurl/api/resource/Designations/${designation.name.toString()}',
+        '$baseurl/api/resource/Employee Location/${designation.name.toString()}',
         options: Options(
           method: 'PUT',
           headers: {'Authorization': await getTocken()},
@@ -55,10 +55,10 @@ class AddDesignationServices {
       );
 
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Designation updated Successfully");
+        Fluttertoast.showToast(msg: "location updated Successfully");
         return true;
       } else {
-        Fluttertoast.showToast(msg: "UNABLE TO update Designation!");
+        Fluttertoast.showToast(msg: "UNABLE TO update location!");
         return false;
       }
     } catch (e) {

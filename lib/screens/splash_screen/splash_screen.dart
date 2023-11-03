@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../constants.dart';
 import '../../router.router.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,6 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
     if (prefs.getString("api_secret") != null &&
         prefs.getString("api_key") != null) {
       isLoggedIn = true;
+      final token = await getTocken();
+      Logger().i(token);
     }
     await Future.delayed(const Duration(seconds: 3));
   }
@@ -46,8 +50,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

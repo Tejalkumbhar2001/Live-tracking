@@ -46,50 +46,18 @@ Widget myDrawer(BuildContext context, String name, String email, String role) {
           },
         ),
         ListTile(
-          leading: const Icon(Bootstrap.people, color: Colors.black),
+          leading: const Icon(FontAwesome.location_arrow, color: Colors.black),
           title: const Text(
-            'Visitor Information',
+            'Geolocation',
             style: TextStyle(fontWeight: FontWeight.w300),
           ),
           onTap: () {
-            Navigator.pushNamed(context, Routes.visitorList);
+            Navigator.popAndPushNamed(context, Routes.geolocation);
           },
         ),
-        role != 'web user'
-            ? ListTile(
-                leading: const Icon(Bootstrap.person, color: Colors.black),
-                title: const Text(
-                  'Team Members',
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.teamMemberList);
-                },
-              )
-            : Container(),
-        ListTile(
-          leading: const Icon(Bootstrap.cart, color: Colors.black),
-          title: const Text(
-            'Products',
-            style: TextStyle(fontWeight: FontWeight.w300),
-          ),
-          onTap: () {
-            Navigator.pushNamed(context, Routes.productList);
-          },
-        ),
-        role != 'web user'
-            ? ListTile(
-                leading:
-                    const Icon(Icons.person_pin_outlined, color: Colors.black),
-                title: const Text(
-                  'Designations',
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.listDesignation);
-                },
-              )
-            : Container(),
+
+
+
         const Divider(thickness: 1),
         ListTile(
           leading: const Icon(Iconsax.logout, color: Colors.black),

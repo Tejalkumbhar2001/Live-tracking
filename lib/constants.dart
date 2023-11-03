@@ -11,16 +11,10 @@ getWidth(context) => (MediaQuery.of(context).size.width);
 const kAadharpdf = "AadharCard";
 const baseurl = 'https://mobilecrm.erpdata.in';
 
-String apiaddvisitor = '$baseurl/api/resource/Visitor Information';
-String apiaddDesignation = '$baseurl/api/resource/Designations';
-String apiroleprofile =
-    '$baseurl/api/resource/Role Profile?filters=[["name","in",["Visitor Administrator","web user"]]]';
-String apimember = '$baseurl/api/resource/Add Team Member';
-String apilistmember =
-    '$baseurl/api/resource/Add Team Member?fields=["first_name","last_name","designation","company","name"]';
+
+String apiaddLocation = '$baseurl/api/resource/Employee Location';
+
 String apiUploadFilePost = '$baseurl/api/method/upload_file';
-String productList =
-    '$baseurl/api/resource/Product?fields=["product_name","name","product_image","description"]';
 
 ///functions
 Future<String> getTocken() async {

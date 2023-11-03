@@ -36,7 +36,7 @@ class loginservices {
             "role_profile", response.data["role_profile"].toString());
         prefs.setString("employee_id", response.data["employee_id"].toString());
         prefs.setString("full_name", response.data["full_name"].toString());
-        Logger().i(response.data["key_details"]["api_secret"].toString());
+        Logger().i('user Logged In');
         return true;
       } else {
         return false;
