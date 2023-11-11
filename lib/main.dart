@@ -1,21 +1,38 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocation/router.router.dart';
-
+import 'package:dynamic_color/dynamic_color.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocation/screens/home_screen/home_view_model.dart';
 import 'package:geolocation/screens/splash_screen/splash_screen.dart';
 import 'package:geolocation/themes/color_schemes.g.dart';
 import 'package:geolocation/themes/custom_color.g.dart';
+import 'package:logger/logger.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:workmanager/workmanager.dart';
+import 'router.router.dart';
+
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    if (task == 'Background Task') {
+      Homeviewmodel model = Homeviewmodel();
+      await model.locationbackgroundbutton();
+   Fluttertoast.showToast(msg: 'background task running...');
+      return Future.value(true);
+    }
+   return Future.value(false);
+  });
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
@@ -26,12 +43,9 @@ class MyApp extends StatelessWidget {
         if (lightDynamic != null && darkDynamic != null) {
           lightScheme = lightDynamic.harmonized();
           lightCustomColors = lightCustomColors.harmonized(lightScheme);
-
-          // Repeat for the dark color scheme.
           darkScheme = darkDynamic.harmonized();
           darkCustomColors = darkCustomColors.harmonized(darkScheme);
         } else {
-          // Otherwise, use fallback schemes.
           lightScheme = lightColorScheme;
           darkScheme = darkColorScheme;
         }
@@ -40,16 +54,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: StackedService.navigatorKey,
           onGenerateRoute: StackedRouter().onGenerateRoute,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightScheme,
-            extensions: [lightCustomColors],
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkScheme,
-            extensions: [darkCustomColors],
-          ),
+
           home: const SplashScreen(),
         );
       },

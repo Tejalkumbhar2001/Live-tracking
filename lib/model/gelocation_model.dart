@@ -6,6 +6,8 @@ class GeolocationModel {
   int? idx;
   String? user;
   String? date;
+  String? myLocation;
+  String? checkData;
   String? doctype;
   List<LocationTable>? locationTable;
 
@@ -17,6 +19,8 @@ class GeolocationModel {
         this.idx,
         this.user,
         this.date,
+        this.myLocation,
+        this.checkData,
         this.doctype,
         this.locationTable});
 
@@ -28,6 +32,8 @@ class GeolocationModel {
     idx = json['idx'];
     user = json['user'];
     date = json['date'];
+    myLocation = json['my_location'];
+    checkData = json['check_data'];
     doctype = json['doctype'];
     if (json['location_table'] != null) {
       locationTable = <LocationTable>[];
@@ -46,6 +52,8 @@ class GeolocationModel {
     data['idx'] = this.idx;
     data['user'] = this.user;
     data['date'] = this.date;
+    data['my_location'] = this.myLocation;
+    data['check_data'] = this.checkData;
     data['doctype'] = this.doctype;
     if (this.locationTable != null) {
       data['location_table'] =

@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 import '../model/gelocation_model.dart';
 
 class CheckinServices{
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<bool> addlocation(GeolocationModel designation) async {
     var data = json.encode({
       "data": designation,
@@ -25,7 +27,11 @@ class CheckinServices{
       );
 
       if (response.statusCode == 200) {
+        final SharedPreferences preferences = await _prefs;
+        String name = response.data['data']['name'].toString();
         Fluttertoast.showToast(msg: "location Added Successfully");
+        preferences.setString('locationid',name);
+        Logger().i(await getlocationid());
         return true;
       } else {
         Fluttertoast.showToast(msg: "UNABLE TO add location!");
@@ -66,5 +72,30 @@ class CheckinServices{
       Logger().e(e);
     }
     return false;
+  }
+
+  Future<GeolocationModel?> getmember(String id) async {
+    try {
+      var dio = Dio();
+      var response = await dio.request(
+        '$baseurl/api/resource/Employee Location/$id',
+        options: Options(
+          method: 'GET',
+          headers: {'Authorization': await getTocken()},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        Logger().i(response.data["data"]);
+        return GeolocationModel.fromJson(response.data["data"]);
+      } else {
+        // print(response.statusMessage);
+        return null;
+      }
+    } catch (e) {
+      Logger().i(e);
+      Fluttertoast.showToast(msg: "Error while fetching location");
+    }
+    return null;
   }
 }
